@@ -2,10 +2,10 @@ require 'net/http'
 require 'json'
 require 'uri'
 
-require './lib/ig'
-require './lib/vsco'
-require './lib/tt'
-require './lib/save'
+require_relative './lib/ig.rb'
+require_relative './lib/vsco.rb'
+require_relative './lib/tt.rb'
+require_relative './lib/save.rb'
 
 $toDownload = []
 $filename = ''
