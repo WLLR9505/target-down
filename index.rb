@@ -7,8 +7,6 @@ require './lib/vsco'
 require './lib/tt'
 require './lib/save'
 
-# puts body
-
 $toDownload = []
 $filename = ''
 def findLinks(url, body)
@@ -27,36 +25,49 @@ end
 def download(downloadList)
     i = 0
     for i in (0...downloadList.length) do
+        print("  #{i + 1}/#{downloadList.length}  ")
         if downloadList[i][1] == 'image'
             SaveFile.writeMedia(downloadList[i][0], "./media/#{$filename}_#{Time.now.strftime("%d%m%Y%H%M%S%L")}.jpg")
         else
             SaveFile.writeMedia(downloadList[i][0], "./media/#{$filename}_#{Time.now.strftime("%d%m%Y%H%M%S%L")}.mp4")
         end
+        print("\r")
     end
 end
 
 def check_dir(directory)
-    # puts Dir.exists?(directory)
     if !Dir.exists?(directory)
         puts 'creating ./media'
         Dir.mkdir('./media')
     end
 end
 
+def check_url(url)
+    if url.include? 'tiktok' or url.include? 'vsco' or url.include? 'instagram'
+        return true
+    else
+        return false
+    end
+end
 
 def main()
     check_dir('./media')
     loop do
-        puts "Paste a URL (invalid value to exit)"
+        puts "Paste a URL (ENTER to exit)"
         url = gets.strip
-
         break if !url.include? 'http'
-
-        uri = URI(url)
-        body = Net::HTTP.get(uri)
-    
-        findLinks(url, body)
-        download($toDownload)
+        
+        if check_url(url)
+            uri = URI(url)
+            body = Net::HTTP.get(uri)
+            
+            #puts body
+        
+            findLinks(url, body)
+            download($toDownload)
+        else
+            puts "ERROR :: Invalid URL, try again"
+        end
     end
 end
 
