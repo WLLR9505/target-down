@@ -24,6 +24,19 @@ module VSCO
 
             toDownload.push([urlMedia, 'image'])
         end
+        first = 0
+        loop do ##loop for photos
+            first = body.index('property="og:video" content="', first + 29)
+            break if first.nil? == true
+
+            urlMedia = body.slice(first + 29, first + 500)
+            last = urlMedia.index('"')
+            urlMedia = urlMedia.slice(0, last)
+
+            urlMedia = urlMedia.gsub('\u0026', '&')
+
+            toDownload.push([urlMedia, 'video'])
+        end
         return toDownload.uniq
     end
 end

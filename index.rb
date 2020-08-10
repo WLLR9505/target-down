@@ -1,3 +1,4 @@
+require 'net_http_ssl_fix'
 require 'net/http'
 require 'json'
 require 'uri'
