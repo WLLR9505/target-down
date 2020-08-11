@@ -25,7 +25,7 @@ module VSCO
             toDownload.push([urlMedia, 'image'])
         end
         first = 0
-        loop do ##loop for photos
+        loop do ##loop for videos
             first = body.index('property="og:video" content="', first + 29)
             break if first.nil? == true
 
